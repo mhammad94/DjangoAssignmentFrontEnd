@@ -1,0 +1,39 @@
+<button nz-button  nzType="primary" (click)="showAddCourseModal()">Add Course</button>
+<br />
+<br />
+<nz-table #courseTable [nzData]="coursesData">
+    <thead>
+      <tr>
+        <th>Course Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of courseTable.data">
+        <td>{{ data.coursetitle}}</td>
+        <td>
+          <a (click)="editCourse(data)">Edit</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a nz-popconfirm nzPopconfirmTitle="Sure to delete?" (nzOnConfirm)="deleteCourse(data.id)">Delete</a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+
+  <nz-modal [(nzVisible)]="isVisible" nzTitle="Add Course" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent>
+        <form nz-form [formGroup]="courseForm">
+            <nz-form-item>
+              <nz-form-label  nzFor="course" nzRequired>Course Name</nz-form-label>
+              <nz-form-control [nzErrorTip]="courseErrorTpl">
+                <input nz-input name="course" formControlName="coursetitle" placeholder="Please enter your course name" type="text"/>
+                <ng-template #courseErrorTpl let-control>
+                    <ng-container *ngIf="control.hasError('required')">Please enter course name!</ng-container>
+                  </ng-template>
+              </nz-form-control>
+            </nz-form-item >
+          </form>
+    </ng-container>
+  </nz-modal>
+
